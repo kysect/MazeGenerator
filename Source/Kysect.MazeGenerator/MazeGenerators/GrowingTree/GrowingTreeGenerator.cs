@@ -2,32 +2,32 @@
 
 public class GrowingTreeGenerator : IMazeGenerator
 {
-    private readonly Random _rnd;
+    private readonly Random _random;
 
     public GrowingTreeGenerator(int seed)
     {
-        _rnd = new Random(seed);
+        _random = new Random(seed);
     }
 
     public byte[][] Generate(int size)
     {
+        if (size < 2)
+            throw new ArgumentException($"{nameof(size)} must be greater than 1");
+
         byte[][] maze = new byte[size][];
 
-        for (int i = 0; i < size; i++)
-        {
-            maze[i] = new byte[size];
-        }
+        for (int i = 0; i < size; i++) maze[i] = new byte[size];
 
-        GenerateTWMaze_GrowingTree(maze);
-        return LineToBlock(maze);
+        GenerateMazeGrowingTree(maze);
+        return TransformLineToBlock(maze);
     }
 
-    private void GenerateTWMaze_GrowingTree(byte[][] maze)
+    private void GenerateMazeGrowingTree(byte[][] maze)
     {
         var cells = new List<Cell>();
 
-        int x = _rnd.Next(maze.Length - 1) + 1;
-        int y = _rnd.Next(maze[0].Length - 1) + 1;
+        int x = _random.Next(maze.Length - 1) + 1;
+        int y = _random.Next(maze[0].Length - 1) + 1;
 
         cells.Add(new Cell(x, y));
 
@@ -36,16 +36,16 @@ public class GrowingTreeGenerator : IMazeGenerator
             int index = Math.Max(cells.Count - 1, 0);
             Cell cellPicked = cells[index];
 
-            foreach (Direction way in DirectionExtensions.GetRandomizedDirections(_rnd))
+            foreach (Direction way in DirectionExtensions.GetRandomizedDirections(_random))
             {
-                Cell move = way.DirectionToDelta();
+                Cell move = way.TransformDirectionToDelta();
 
                 Cell pos = cellPicked + move;
 
-                if (pos.X >= 0 && pos.Y >= 0 && pos.X < maze.Length && pos.Y < maze[0].Length && maze[pos.X][pos.Y] == 0)
+                if (IsCellInBounds(maze, pos) && maze[pos.X][pos.Y] == 0)
                 {
                     maze[cellPicked.X][cellPicked.Y] |= (byte)way;
-                    maze[pos.X][pos.Y] |= (byte)way.OppositeDirection();
+                    maze[pos.X][pos.Y] |= (byte)way.GetOppositeDirection();
 
                     cells.Add(pos);
 
@@ -59,11 +59,14 @@ public class GrowingTreeGenerator : IMazeGenerator
         }
     }
 
-    private byte[][] LineToBlock(byte[][] maze)
+    private static bool IsCellInBounds(byte[][] maze, Cell pos)
     {
-        if (maze == null || (maze.GetLength(0) <= 1 && maze.GetLength(1) <= 1))
-            throw new ArgumentException("");
+        return pos.X >= 0 && pos.X < maze.Length &&
+               pos.Y >= 0 && pos.Y < maze[0].Length;
+    }
 
+    private byte[][] TransformLineToBlock(byte[][] maze)
+    {
         byte[][] lineToBlock = new byte[(2 * maze.Length) + 1][];
 
         for (int i = 0; i < lineToBlock.Length; i++)

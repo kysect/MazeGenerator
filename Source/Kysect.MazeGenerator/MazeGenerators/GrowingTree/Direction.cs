@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Kysect.MazeGenerator.MazeGenerators.GrowingTree;
+﻿namespace Kysect.MazeGenerator.MazeGenerators.GrowingTree;
 
 public enum Direction
 {
@@ -12,7 +10,7 @@ public enum Direction
 
 public static class DirectionExtensions
 {
-    public static Direction OppositeDirection(this Direction direction)
+    public static Direction GetOppositeDirection(this Direction direction)
     {
         return direction switch
         {
@@ -36,7 +34,7 @@ public static class DirectionExtensions
         return directions;
     }
 
-    public static Cell DirectionToDelta(this Direction facingDirection)
+    public static Cell TransformDirectionToDelta(this Direction facingDirection)
     {
         return facingDirection switch
         {
