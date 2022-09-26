@@ -1,3 +1,6 @@
 .vs/
 /Source/Kysect.MazeGenerator/obj
 /Source/Kysect.MazeGenerator/Kysect.MazeGenerator/obj/Debug/net6.0
+/Source/Kysect.MazeGenerator/bin/Debug/net6.0
+/Source/Kysect.MazeGenerator.Console/bin/Debug/net6.0
+/Source/Kysect.MazeGenerator.Console/obj
