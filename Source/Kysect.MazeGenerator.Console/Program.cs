@@ -1,7 +1,9 @@
 ﻿using Kysect.MazeGenerator;
+using Kysect.MazeGenerator.MazeGenerators.GrowingTree;
 
-ushort size = 5;
-byte[][] maze = Maze.CreateMaze(size, size);
+ushort size = 2;
+IMazeGenerator generator = new GrowingTreeGenerator(0);
+byte[][] maze = generator.Generate(size);
 
 for (int i = 0; i < maze.Length; i++)
 {

@@ -1,29 +1,33 @@
-﻿namespace Kysect.MazeGenerator;
+﻿namespace Kysect.MazeGenerator.MazeGenerators.GrowingTree;
 
-public static class Maze
+public class GrowingTreeGenerator : IMazeGenerator
 {
-    private static readonly Random Random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
+    private readonly Random _rnd;
 
-    public static byte[][] CreateMaze(ushort width, ushort height)
+    public GrowingTreeGenerator(int seed)
     {
-        int h = Random.Next(width, height);
+        _rnd = new Random(seed);
+    }
 
-        byte[][] maze = new byte[h][];
+    public byte[][] Generate(int size)
+    {
+        byte[][] maze = new byte[size][];
 
-        for (int i = 0; i < h; i++)
+        for (int i = 0; i < size; i++)
         {
-            maze[i] = new byte[h];
+            maze[i] = new byte[size];
         }
         GenerateTWMaze_GrowingTree(maze);
         return LineToBlock(maze);
+
     }
 
-    private static void GenerateTWMaze_GrowingTree(byte[][] maze)
+    private void GenerateTWMaze_GrowingTree(byte[][] maze)
     {
         var cells = new List<ushort[]>();
 
-        ushort x = (byte)(Random.Next(maze.Length - 1) + 1);
-        ushort y = (byte)(Random.Next(maze[0].Length - 1) + 1);
+        ushort x = (byte)(_rnd.Next(maze.Length - 1) + 1);
+        ushort y = (byte)(_rnd.Next(maze[0].Length - 1) + 1);
 
         cells.Add(new[]
         {
@@ -48,7 +52,7 @@ public static class Maze
                 if (nx >= 0 && ny >= 0 && nx < maze.Length && ny < maze[0].Length && maze[nx][ny] == 0)
                 {
                     maze[x][y] |= (byte)way;
-                    maze[nx][ny] |= (byte)way.OppositeDirection();
+                    maze[nx][ny] |= (byte)OppositeDirection(way);
 
                     cells.Add(new[]
                     {
@@ -64,7 +68,7 @@ public static class Maze
         }
     }
 
-    public static Direction OppositeDirection(this Direction direction)
+    public Direction OppositeDirection(Direction direction)
     {
         return direction switch
         {
@@ -77,7 +81,7 @@ public static class Maze
     }
 
 
-    private static ushort ChooseIndex(ushort max)
+    private ushort ChooseIndex(ushort max)
     {
         ushort index = 0;
 
@@ -89,7 +93,7 @@ public static class Maze
         return index;
     }
 
-    private static Direction[] RandomizeDirection()
+    private Direction[] RandomizeDirection()
     {
         var directions = (Direction[])Enum.GetValues(typeof(Direction));
         Shuffle(directions);
@@ -97,19 +101,19 @@ public static class Maze
     }
 
     // comes from http://www.dotnetperls.com/fisher-yates-shuffle
-    private static void Shuffle<T>(T[] array)
+    private void Shuffle<T>(T[] array)
     {
         int n = array.Length;
 
         for (int i = 0; i < n; i++)
         {
-            int r = i + (int)(Random.NextDouble() * (n - i));
+            int r = i + (int)(_rnd.NextDouble() * (n - i));
             (array[r], array[i]) = (array[i], array[r]);
         }
     }
 
 
-    private static sbyte[] DoAStep(Direction facingDirection)
+    private sbyte[] DoAStep(Direction facingDirection)
     {
         sbyte[] step =
         {
@@ -140,7 +144,7 @@ public static class Maze
     }
 
 
-    private static byte[][] LineToBlock(byte[][] maze)
+    private byte[][] LineToBlock(byte[][] maze)
     {
         if (maze == null || (maze.GetLength(0) <= 1 && maze.GetLength(1) <= 1))
             throw new ArgumentException("");
@@ -176,4 +180,6 @@ public static class Maze
 
         return lineToBlock;
     }
+
+
 }

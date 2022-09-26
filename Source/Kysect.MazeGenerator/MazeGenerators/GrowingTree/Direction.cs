@@ -1,4 +1,4 @@
-﻿namespace Kysect.MazeGenerator;
+﻿namespace Kysect.MazeGenerator.MazeGenerators.GrowingTree;
 
 [Flags]
 #pragma warning disable CA1028 // Enum Storage should be Int32
