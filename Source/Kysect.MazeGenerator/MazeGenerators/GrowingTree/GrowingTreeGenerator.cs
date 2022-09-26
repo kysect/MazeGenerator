@@ -44,7 +44,7 @@ public class GrowingTreeGenerator : IMazeGenerator
 
                 if (pos.X >= 0 && pos.Y >= 0 && pos.X < maze.Length && pos.Y < maze[0].Length && maze[pos.X][pos.Y] == 0)
                 {
-                    maze[x][y] |= (byte)way;
+                    maze[cellPicked.X][cellPicked.Y] |= (byte)way;
                     maze[pos.X][pos.Y] |= (byte)way.OppositeDirection();
 
                     cells.Add(pos);
