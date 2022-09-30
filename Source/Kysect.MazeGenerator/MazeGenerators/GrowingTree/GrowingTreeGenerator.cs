@@ -35,8 +35,8 @@ public class GrowingTreeGenerator : IMazeGenerator
         {
             Direction direction = DirectionExtensions.GetRandomizedDirections(_random)[0];
             Coordinate d = direction.TransformDirectionToDelta();
-            delta = new Coordinate {X = d.Y, Y = d.X,};
-            int x = (int) ((_random.NextDouble() * (map.GetLength(0) - 1)) + 1);
+            delta = new Coordinate { X = d.Y, Y = d.X, };
+            int x = (int)((_random.NextDouble() * (map.GetLength(0) - 1)) + 1);
             exitPosition = direction.TransformDirectionToCoordinate(x, map.GetLength(0));
             exitPosition -= delta;
         } while (map[exitPosition.X][exitPosition.Y] == Cells.Wall);

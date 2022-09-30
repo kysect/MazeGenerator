@@ -3,7 +3,7 @@ using Kysect.MazeGenerator.MazeGenerators.GrowingTree;
 
 
 ushort size = 7;
-IMazeGenerator generator = new GrowingTreeGenerator((int) DateTime.Now.Ticks);
+IMazeGenerator generator = new GrowingTreeGenerator((int)DateTime.Now.Ticks);
 var maze = new Maze(generator.Generate(size));
 
 
