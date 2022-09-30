@@ -34,15 +34,27 @@ public static class DirectionExtensions
         return directions;
     }
 
-    public static Cell TransformDirectionToDelta(this Direction facingDirection)
+    public static Coordinate TransformDirectionToDelta(this Direction facingDirection)
     {
         return facingDirection switch
         {
-            Direction.North => new Cell(0, -1),
-            Direction.South => new Cell(0, 1),
-            Direction.East => new Cell(1, 0),
-            Direction.West => new Cell(-1, 0),
-            _ => new Cell(0, 0)
+            Direction.North => new Coordinate(0, -1),
+            Direction.South => new Coordinate(0, 1),
+            Direction.East => new Coordinate(1, 0),
+            Direction.West => new Coordinate(-1, 0),
+            _ => new Coordinate(0, 0)
+        };
+    }
+
+    public static Coordinate TransformDirectionToCoordinate(this Direction facingDirection, int index, int size)
+    {
+        return facingDirection switch
+        {
+            Direction.North => new Coordinate(0, index),
+            Direction.South => new Coordinate(size - 1, index),
+            Direction.East => new Coordinate(index, size - 1),
+            Direction.West => new Coordinate(index, 0),
+            _ => new Coordinate(0, 0)
         };
     }
 }

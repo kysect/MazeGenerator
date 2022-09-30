@@ -2,5 +2,5 @@
 
 public interface IMazeGenerator
 {
-    byte[][] Generate(int size);
+    Cells[][] Generate(int size);
 }

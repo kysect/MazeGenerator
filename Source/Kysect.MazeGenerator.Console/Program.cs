@@ -1,15 +1,17 @@
 ﻿using Kysect.MazeGenerator;
 using Kysect.MazeGenerator.MazeGenerators.GrowingTree;
 
-ushort size = 5;
-IMazeGenerator generator = new GrowingTreeGenerator(0);
-byte[][] maze = generator.Generate(size);
 
-for (int i = 0; i < maze.Length; i++)
+ushort size = 7;
+IMazeGenerator generator = new GrowingTreeGenerator((int) DateTime.Now.Ticks);
+var maze = new Maze(generator.Generate(size));
+
+
+for (int i = 0; i < maze.Size; i++)
 {
-    for (int j = 0; j < maze[0].Length; j++)
+    for (int j = 0; j < maze.Size; j++)
     {
-        Console.Write(maze[i][j] == 0 ? " " : "O");
+        Console.Write(maze.Map[i][j] == Cells.Empty ? " " : "O");
 
         Console.Write(" ");
     }
