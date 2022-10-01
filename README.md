@@ -17,4 +17,4 @@ public enum Cells
 
 Пример создания лабиринта
 
-https://github.com/kysect/MazeGenerator/blob/89657d5857d39e5961e1231bda079e7c4a863da4/Source/Kysect.MazeGenerator.Console/Program.cs
+https://github.com/kysect/MazeGenerator/blob/900e3bb19168dc95cc1e1b15b82e71bce4338867/Source/Kysect.MazeGenerator.Console/Program.cs#L5-L30
