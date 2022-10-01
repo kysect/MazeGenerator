@@ -1,7 +1,7 @@
 ﻿
 namespace Kysect.MazeGenerator.MazeGenerators.GrowingTree;
 
-public class GrowingTreeGenerator : IMazeGenerator
+public class GrowingTreeGenerator : IMapGenerator
 {
     private readonly Random _random;
 

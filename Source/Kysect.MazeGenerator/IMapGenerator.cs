@@ -1,6 +1,6 @@
 ﻿namespace Kysect.MazeGenerator;
 
-public interface IMazeGenerator
+public interface IMapGenerator
 {
     Cells[][] Generate(int size);
 }

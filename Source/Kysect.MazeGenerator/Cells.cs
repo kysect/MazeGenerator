@@ -3,5 +3,6 @@
 public enum Cells
 {
     Wall,
-    Empty
+    Empty,
+    Exit,
 }

@@ -56,7 +56,7 @@ public static class DirectionExtensions
         };
     }
 
-    public static Coordinate TransformDirectionToCoordinate(this Direction facingDirection, int index, int size)
+    public static Coordinate GetSideCoordinate(this Direction facingDirection, int index, int size)
     {
         return facingDirection switch
         {
