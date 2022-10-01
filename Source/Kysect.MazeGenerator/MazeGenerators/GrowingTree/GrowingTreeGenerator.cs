@@ -5,14 +5,19 @@ public class GrowingTreeGenerator : IMazeGenerator
 {
     private readonly Random _random;
 
-    public GrowingTreeGenerator(int seed)
+    public GrowingTreeGenerator()
     {
-        _random = new Random(seed);
+        _random = new Random();
+    }
+
+    public GrowingTreeGenerator(Random random)
+    {
+        _random = random;
     }
 
     public Cells[][] Generate(int size)
     {
-        if (size < 2)
+        if (size <= 1)
             throw new ArgumentException($"{nameof(size)} must be greater than 1");
 
         byte[][] maze = new byte[size][];
@@ -22,28 +27,11 @@ public class GrowingTreeGenerator : IMazeGenerator
         GenerateMazeGrowingTree(maze);
         Cells[][] map = TransformLineToBlock(maze);
 
-        AddExit(map);
 
         return map;
     }
 
-    private void AddExit(Cells[][] map)
-    {
-        Coordinate exitPosition, delta;
 
-        do
-        {
-            Direction direction = DirectionExtensions.GetRandomizedDirections(_random)[0];
-            Coordinate d = direction.TransformDirectionToDelta();
-            delta = new Coordinate { X = d.Y, Y = d.X, };
-            int x = (int)((_random.NextDouble() * (map.GetLength(0) - 1)) + 1);
-            exitPosition = direction.TransformDirectionToCoordinate(x, map.GetLength(0));
-            exitPosition -= delta;
-        } while (map[exitPosition.X][exitPosition.Y] == Cells.Wall);
-
-        exitPosition += delta;
-        map[exitPosition.X][exitPosition.Y] = Cells.Empty;
-    }
 
     private void GenerateMazeGrowingTree(byte[][] maze)
     {

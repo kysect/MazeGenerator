@@ -34,6 +34,16 @@ public static class DirectionExtensions
         return directions;
     }
 
+    public static Direction GetRandomDirection(Random rnd)
+    {
+        Direction[] directions = Enum.GetValues<Direction>();
+
+        int r = (int)(rnd.NextDouble() * (directions.Length - 1));
+
+        return directions[r];
+    }
+
+
     public static Coordinate TransformDirectionToDelta(this Direction facingDirection)
     {
         return facingDirection switch
