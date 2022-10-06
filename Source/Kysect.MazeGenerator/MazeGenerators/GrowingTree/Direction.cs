@@ -34,15 +34,37 @@ public static class DirectionExtensions
         return directions;
     }
 
-    public static Cell TransformDirectionToDelta(this Direction facingDirection)
+    public static Direction GetRandomDirection(Random rnd)
+    {
+        Direction[] directions = Enum.GetValues<Direction>();
+
+        int r = (int)(rnd.NextDouble() * (directions.Length - 1));
+
+        return directions[r];
+    }
+
+
+    public static Coordinate TransformDirectionToDelta(this Direction facingDirection)
     {
         return facingDirection switch
         {
-            Direction.North => new Cell(0, -1),
-            Direction.South => new Cell(0, 1),
-            Direction.East => new Cell(1, 0),
-            Direction.West => new Cell(-1, 0),
-            _ => new Cell(0, 0)
+            Direction.North => new Coordinate(0, -1),
+            Direction.South => new Coordinate(0, 1),
+            Direction.East => new Coordinate(1, 0),
+            Direction.West => new Coordinate(-1, 0),
+            _ => new Coordinate(0, 0)
+        };
+    }
+
+    public static Coordinate GetSideCoordinate(this Direction facingDirection, int index, int size)
+    {
+        return facingDirection switch
+        {
+            Direction.North => new Coordinate(0, index),
+            Direction.South => new Coordinate(size - 1, index),
+            Direction.East => new Coordinate(index, size - 1),
+            Direction.West => new Coordinate(index, 0),
+            _ => new Coordinate(0, 0)
         };
     }
 }
