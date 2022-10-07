@@ -1,30 +1,49 @@
-﻿using Kysect.MazeGenerator;
-using Kysect.MazeGenerator.MazeGenerators.GrowingTree;
+﻿using Kysect.MazeGenerator.Console;
+using Kysect.MazeGenerator.Entities;
+using Kysect.MazeGenerator.Generators;
+using Kysect.MazeGenerator.Models;
 
+IMazeGenerator generator = new GrowingTreeMazeGenerator();
 
-int size = 5;
-IMapGenerator generator = new GrowingTreeGenerator();
-var maze = new Maze(generator.Generate(size));
-maze.AddExit();
+Maze maze = generator.CreateMaze(2);
 
-for (int i = 0; i < maze.Size; i++)
+char[][] block = MazePrinter.CellToBlock(maze.GetCellAt(new Coordinate(0, 0)));
+
+for (int i = 0; i < 3; ++i)
 {
-    for (int j = 0; j < maze.Size; j++)
+    for (int j = 0; j < 3; ++j)
     {
-        Console.Write(CellToString(maze.Map[i][j]));
-
-        Console.Write(" ");
+        Console.Write(block[i][j]);
     }
     Console.WriteLine();
 }
 
-string CellToString(Cells cellType)
+block = MazePrinter.CellToBlock(maze.GetCellAt(new Coordinate(1, 0)));
+for (int i = 0; i < 3; ++i)
 {
-    return cellType switch
+    for (int j = 0; j < 3; ++j)
     {
-        Cells.Wall => "0",
-        Cells.Empty => " ",
-        Cells.Exit => "#",
-        _ => throw new ArgumentOutOfRangeException(nameof(cellType), cellType, null)
-    };
+        Console.Write(block[i][j]);
+    }
+    Console.WriteLine();
+}
+
+block = MazePrinter.CellToBlock(maze.GetCellAt(new Coordinate(0, 1)));
+for (int i = 0; i < 3; ++i)
+{
+    for (int j = 0; j < 3; ++j)
+    {
+        Console.Write(block[i][j]);
+    }
+    Console.WriteLine();
+}
+
+block = MazePrinter.CellToBlock(maze.GetCellAt(new Coordinate(1, 1)));
+for (int i = 0; i < 3; ++i)
+{
+    for (int j = 0; j < 3; ++j)
+    {
+        Console.Write(block[i][j]);
+    }
+    Console.WriteLine();
 }
