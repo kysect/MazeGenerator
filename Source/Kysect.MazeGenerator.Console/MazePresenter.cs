@@ -5,15 +5,18 @@ namespace Kysect.MazeGenerator.Console;
 
 public static class MazePresenter
 {
+    private const char WALL = 'O';
+
     public static char[][] MazeToGameMap(Maze maze)
     {
         char[][] gameMap;
 
-        gameMap = new char[3 * maze.Size][];
+        int gameMapSize = (2 * maze.Size) + 1;
+        gameMap = new char[gameMapSize][];
 
-        for (int i = 0; i < 3 * maze.Size; ++i)
+        for (int i = 0; i < gameMapSize; ++i)
         {
-            gameMap[i] = new char[3 * maze.Size];
+            gameMap[i] = new char[gameMapSize];
         }
 
         for (int i = 0; i < maze.Size; ++i)
@@ -27,14 +30,20 @@ public static class MazePresenter
 
             for (int j = 0; j < maze.Size; ++j)
             {
-                for (int k = 0; k < 3; ++k)
+                for (int k = 0; k < 2; ++k)
                 {
-                    for (int l = 0; l < 3; ++l)
+                    for (int l = 0; l < 2; ++l)
                     {
-                        gameMap[(3 * i) + k][(3 * j) + l] = blocks[j][k][l];
+                        gameMap[(2 * i) + k][(2 * j) + l] = blocks[j][k][l];
                     }
                 }
             }
+        }
+
+        for (int i = 0; i < gameMapSize; ++i)
+        {
+            gameMap[i][^1] = WALL;
+            gameMap[^1][i] = WALL;
         }
 
         return gameMap;
@@ -57,22 +66,22 @@ public static class MazePresenter
             }
         }
 
-        block[0][0] = 'O';
-        block[0][2] = 'O';
-        block[2][0] = 'O';
-        block[2][2] = 'O';
+        block[0][0] = WALL;
+        block[0][2] = WALL;
+        block[2][0] = WALL;
+        block[2][2] = WALL;
 
         if (!cell.IsConnectedWith(Directions.Left))
-            block[1][0] = 'O';
+            block[1][0] = WALL;
 
         if (!cell.IsConnectedWith(Directions.Up))
-            block[0][1] = 'O';
+            block[0][1] = WALL;
 
         if (!cell.IsConnectedWith(Directions.Right))
-            block[1][2] = 'O';
+            block[1][2] = WALL;
 
         if (!cell.IsConnectedWith(Directions.Down))
-            block[2][1] = 'O';
+            block[2][1] = WALL;
 
         return block;
     }
