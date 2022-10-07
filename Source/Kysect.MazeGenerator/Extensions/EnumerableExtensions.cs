@@ -10,4 +10,9 @@ public static class EnumerableExtensions
 
         return collection.ElementAt(index);
     }
+
+    public static bool IsEmpty<T>(this IEnumerable<T> collection)
+    {
+        return !collection.Any();
+    }
 }

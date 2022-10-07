@@ -5,7 +5,7 @@ namespace Kysect.MazeGenerator.Console;
 
 public static class MazePresenter
 {
-    private const char WALL = 'O';
+    private const char WALL = '@';
 
     public static char[][] MazeToGameMap(Maze maze)
     {

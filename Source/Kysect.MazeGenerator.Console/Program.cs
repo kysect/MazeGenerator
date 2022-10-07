@@ -11,7 +11,7 @@ char[][] gameMap = MazePresenter.MazeToGameMap(maze);
 for (int i = 0; i < gameMap.Length; ++i)
 {
     for (int j = 0; j < gameMap[i].Length; ++j)
-        Console.Write(gameMap[i][j]);
+        Console.Write(gameMap[i][j] + " ");
 
     Console.WriteLine();
 }

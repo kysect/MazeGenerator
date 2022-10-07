@@ -13,11 +13,11 @@ public class GrowingTreeMazeGenerator : IMazeGenerator
         var cells = new Stack<Cell>();
         cells.Push(GetRandomCell(maze));
 
-        while (cells.Count > 0)
+        while (!cells.IsEmpty())
         {
             Cell currentCell = cells.Peek();
 
-            if (!GetPossibleDirections(currentCell).Any())
+            if (GetPossibleDirections(currentCell).IsEmpty())
             {
                 cells.Pop();
                 continue;
@@ -54,6 +54,6 @@ public class GrowingTreeMazeGenerator : IMazeGenerator
 
     private bool IsVisitedCell(Cell cell)
     {
-        return cell.Connections.Any();
+        return !cell.Connections.IsEmpty();
     }
 }
