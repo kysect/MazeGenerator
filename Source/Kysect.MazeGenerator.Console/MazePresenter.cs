@@ -1,6 +1,5 @@
 ﻿using Kysect.MazeGenerator.Entities;
 using Kysect.MazeGenerator.Models;
-using System.Runtime.ExceptionServices;
 
 namespace Kysect.MazeGenerator.Console;
 
@@ -58,22 +57,22 @@ public static class MazePresenter
             }
         }
 
-        block[0][0] = '#';
-        block[0][2] = '#';
-        block[2][0] = '#';
-        block[2][2] = '#';
+        block[0][0] = 'O';
+        block[0][2] = 'O';
+        block[2][0] = 'O';
+        block[2][2] = 'O';
 
-        if (!cell.ConnectedWith(Directions.Left))
-            block[1][0] = '#';
+        if (!cell.IsConnectedWith(Directions.Left))
+            block[1][0] = 'O';
 
-        if (!cell.ConnectedWith(Directions.Up))
-            block[0][1] = '#';
+        if (!cell.IsConnectedWith(Directions.Up))
+            block[0][1] = 'O';
 
-        if (!cell.ConnectedWith(Directions.Right))
-            block[1][2] = '#';
+        if (!cell.IsConnectedWith(Directions.Right))
+            block[1][2] = 'O';
 
-        if (!cell.ConnectedWith(Directions.Down))
-            block[2][1] = '#';
+        if (!cell.IsConnectedWith(Directions.Down))
+            block[2][1] = 'O';
 
         return block;
     }

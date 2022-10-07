@@ -4,7 +4,7 @@ using Kysect.MazeGenerator.Generators;
 
 IMazeGenerator generator = new GrowingTreeMazeGenerator();
 
-Maze maze = generator.CreateMaze(3);
+Maze maze = generator.CreateMaze(5);
 
 char[][] gameMap = MazePresenter.MazeToGameMap(maze);
 

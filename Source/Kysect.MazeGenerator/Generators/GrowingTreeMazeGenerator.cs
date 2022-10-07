@@ -10,42 +10,50 @@ public class GrowingTreeMazeGenerator : IMazeGenerator
     {
         var maze = new Maze(size);
 
-        var cells = new List<Cell>() { maze.GetCellAt(new Coordinate(0, 0)) };
+        var cells = new Stack<Cell>();
+        cells.Push(GetRandomCell(maze));
 
         while (cells.Count > 0)
         {
-            Cell currentCell = cells[^1];
+            Cell currentCell = cells.Peek();
 
-            IEnumerable<Directions> possibleConnections = GetPossibleConnections(currentCell);
-
-            if (!possibleConnections.Any())
+            if (!GetPossibleDirections(currentCell).Any())
             {
-                cells.Remove(currentCell);
+                cells.Pop();
                 continue;
             }
 
-            Directions direction = GetPossibleConnections(currentCell).GetRandom();
-            Cell nextCell = maze.GetCellAt(currentCell.Coordinate + direction.ToCoordinate());
+            Directions nextCellDirection = GetPossibleDirections(currentCell).GetRandom();
+            Cell nextCell = maze.GetCellAt(currentCell.Coordinate + nextCellDirection.ToCoordinate());
 
-            currentCell.ConnectTo(direction);
-            nextCell.ConnectTo(direction.GetOpposite());
+            currentCell.ConnectWith(nextCellDirection);
+            nextCell.ConnectWith(nextCellDirection.GetOpposite());
 
-            cells.Remove(currentCell);
-            cells.Add(nextCell);
+            cells.Push(nextCell);
         }
 
         return maze;
     }
 
-    private IEnumerable<Directions> GetPossibleConnections(Cell cell)
+    private Cell GetRandomCell(Maze maze)
     {
-        foreach (Directions direction in Enum.GetValues<Directions>())
-        {
-            if (cell.Maze.Contains(cell.Coordinate + direction.ToCoordinate())
-                && !cell.Maze.GetCellAt(cell.Coordinate + direction.ToCoordinate()).Connections.Any())
-            {
-                yield return direction;
-            }
-        }
+        var random = new Random((int)DateTime.Now.Ticks);
+
+        int x = random.Next(maze.Size);
+        int y = random.Next(maze.Size);
+
+        return maze.GetCellAt(x, y);
+    }
+
+    private IEnumerable<Directions> GetPossibleDirections(Cell cell)
+    {
+        return Enum.GetValues<Directions>()
+            .Where(d => cell.Maze.Contains(cell.Coordinate + d.ToCoordinate()))
+            .Where(d => !IsVisitedCell(cell.Maze.GetCellAt(cell.Coordinate + d.ToCoordinate())));
+    }
+
+    private bool IsVisitedCell(Cell cell)
+    {
+        return cell.Connections.Any();
     }
 }

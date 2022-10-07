@@ -32,6 +32,11 @@ public class Maze
 
     public int Size { get; }
 
+    public Cell GetCellAt(int x, int y)
+    {
+        return GetCellAt(new Coordinate(x, y));
+    }
+
     public Cell GetCellAt(Coordinate coordinate)
     {
         if (!Contains(coordinate))

@@ -23,7 +23,7 @@ public class Cell
 
     public IEnumerable<Directions> Connections => _connections.AsEnumerable();
 
-    public void ConnectTo(Directions direction)
+    public void ConnectWith(Directions direction)
     {
         if (!Maze.Contains(Coordinate + direction.ToCoordinate()))
             throw InvalidCellOperationException.OnConnectionWithNonExistentCell(Coordinate + direction.ToCoordinate());
@@ -38,7 +38,7 @@ public class Cell
             throw InvalidCellOperationException.OnFailedSeparation(direction);
     }
 
-    public bool ConnectedWith(Directions direction)
+    public bool IsConnectedWith(Directions direction)
     {
         return _connections.Contains(direction);
     }
