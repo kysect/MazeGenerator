@@ -1,30 +1,17 @@
-﻿using Kysect.MazeGenerator;
-using Kysect.MazeGenerator.MazeGenerators.GrowingTree;
+﻿using Kysect.MazeGenerator.Console;
+using Kysect.MazeGenerator.Entities;
+using Kysect.MazeGenerator.Generators;
 
+IMazeGenerator generator = new GrowingTreeMazeGenerator();
 
-int size = 5;
-IMapGenerator generator = new GrowingTreeGenerator();
-var maze = new Maze(generator.Generate(size));
-maze.AddExit();
+Maze maze = generator.CreateMaze(5);
 
-for (int i = 0; i < maze.Size; i++)
+char[][] gameMap = MazePresenter.MazeToGameMap(maze);
+
+for (int i = 0; i < gameMap.Length; ++i)
 {
-    for (int j = 0; j < maze.Size; j++)
-    {
-        Console.Write(CellToString(maze.Map[i][j]));
+    for (int j = 0; j < gameMap[i].Length; ++j)
+        Console.Write(gameMap[i][j] + " ");
 
-        Console.Write(" ");
-    }
     Console.WriteLine();
-}
-
-string CellToString(Cells cellType)
-{
-    return cellType switch
-    {
-        Cells.Wall => "0",
-        Cells.Empty => " ",
-        Cells.Exit => "#",
-        _ => throw new ArgumentOutOfRangeException(nameof(cellType), cellType, null)
-    };
 }
