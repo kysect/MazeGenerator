@@ -16,13 +16,15 @@ public class GrowingTreeMazeGenerator : IMazeGenerator
         {
             Cell currentCell = cells[^1];
 
-            if (!currentCell.GetPossibleConnections().Any())
+            IEnumerable<Directions> possibleConnections = GetPossibleConnections(currentCell);
+
+            if (!possibleConnections.Any())
             {
                 cells.Remove(currentCell);
                 continue;
             }
 
-            Directions direction = currentCell.GetPossibleConnections().GetRandom();
+            Directions direction = GetPossibleConnections(currentCell).GetRandom();
             Cell nextCell = maze.GetCellAt(currentCell.Coordinate + direction.ToCoordinate());
 
             currentCell.ConnectTo(direction);
@@ -33,5 +35,17 @@ public class GrowingTreeMazeGenerator : IMazeGenerator
         }
 
         return maze;
+    }
+
+    private IEnumerable<Directions> GetPossibleConnections(Cell cell)
+    {
+        foreach (Directions direction in Enum.GetValues<Directions>())
+        {
+            if (cell.Maze.Contains(cell.Coordinate + direction.ToCoordinate())
+                && !cell.Maze.GetCellAt(cell.Coordinate + direction.ToCoordinate()).Connections.Any())
+            {
+                yield return direction;
+            }
+        }
     }
 }

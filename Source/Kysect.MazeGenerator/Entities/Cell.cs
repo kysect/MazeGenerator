@@ -26,7 +26,7 @@ public class Cell
     public void ConnectTo(Directions direction)
     {
         if (!Maze.Contains(Coordinate + direction.ToCoordinate()))
-            throw new NotImplementedException();
+            throw InvalidCellOperationException.OnConnectionWithNonExistentCell(Coordinate + direction.ToCoordinate());
 
         if (!_connections.Add(direction))
             throw InvalidCellOperationException.OnFailedConnection(direction);
@@ -41,14 +41,5 @@ public class Cell
     public bool ConnectedWith(Directions direction)
     {
         return _connections.Contains(direction);
-    }
-
-    public IEnumerable<Directions> GetPossibleConnections()
-    {
-        foreach (Directions direction in Enum.GetValues<Directions>())
-        {
-            if (Maze.Contains(Coordinate + direction.ToCoordinate()) && !ConnectedWith(direction))
-                yield return direction;
-        }
     }
 }

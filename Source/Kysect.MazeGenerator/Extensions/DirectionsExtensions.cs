@@ -15,10 +15,10 @@ public static class DirectionsExtensions
 
     public static Coordinate ToCoordinate(this Directions direction) => direction switch
     {
-        Directions.Up => new Coordinate(0, 1),
-        Directions.Down => new Coordinate(0, -1),
-        Directions.Left => new Coordinate(-1, 0),
-        Directions.Right => new Coordinate(1, 0),
+        Directions.Up => new Coordinate(-1, 0),
+        Directions.Down => new Coordinate(1, 0),
+        Directions.Left => new Coordinate(0, -1),
+        Directions.Right => new Coordinate(0, 1),
         _ => throw new ArgumentOutOfRangeException(nameof(direction))
     };
 }
